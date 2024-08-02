@@ -5,6 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.meliskaradag.shoppingcartclientside.DatabaseHelper
 import okhttp3.*
+import okhttp3.Callback
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.MediaType.Companion.toMediaType
 import java.io.IOException
 
 data class Product(
@@ -79,7 +82,7 @@ class CartActivity : AppCompatActivity() {
             val key = selectedProducts.keyAt(i)
             if (selectedProducts.valueAt(i)) {
                 val product = productList[key]
-                // Ürün seçilmiş ve isSold durumu güncellenmemişse listeye ekleyin
+                // Ürün seçilmiş ve isSold durumu güncellenmemişse listeye ekleme
                 if (!product.isSold) {
                     selectedProductList.add(product)
                 }
@@ -96,8 +99,8 @@ class CartActivity : AppCompatActivity() {
         val jsonRequest = gson.toJson(requestData)
 
         val client = OkHttpClient()
-        val mediaType = MediaType.parse("application/json")
-        val body = RequestBody.create(mediaType, jsonRequest)
+        val mediaType = "application/json".toMediaType() // Güncellenmiş kullanım
+        val body = jsonRequest.toRequestBody(mediaType)
         val request = okhttp3.Request.Builder()
             .url("http://your_server_ip:port")  // Sunucu adresinizi ve portunuzu buraya ekleyin
             .post(body)
@@ -110,15 +113,15 @@ class CartActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onResponse(call: Call, response: Response) {
-                val responseBody = response.body()?.string()
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                val responseBodyString = response.body?.string()
                 val responseType = object : TypeToken<Response>() {}.type
-                val responseObj = gson.fromJson<Response>(responseBody, responseType)
+                val responseObj = gson.fromJson<Response>(responseBodyString, responseType)
                 runOnUiThread {
-                    // Yanıtı işleyin, örneğin ürünlerin sepete eklenmesi gibi
+                    // Yanıtı işleme, örneğin ürünlerin sepete eklenmesi gibi
                     Toast.makeText(this@CartActivity, "Cart submitted successfully", Toast.LENGTH_SHORT).show()
 
-                    // Satılan ürünlerin durumunu güncelleyin
+                    // Satılan ürünlerin durumunu güncelleme
                     updateSoldProducts(selectedProductList)
                 }
             }
@@ -126,12 +129,12 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun updateSoldProducts(selectedProducts: List<Product>) {
-        // Satılan ürünlerin durumunu güncelleyin
+        // Satılan ürünlerin durumunu güncelleme
         for (product in selectedProducts) {
             product.isSold = true
         }
         // Güncellenmiş ürünlerin veritabanına kaydedilmesi gerekebilir
-        // Bu işlem için uygun veritabanı güncellemelerini yapmanız gerekebilir
+        // Bu işlem için uygun veritabanı güncellemeleri yapılması gerekebilir
     }
 }
 
