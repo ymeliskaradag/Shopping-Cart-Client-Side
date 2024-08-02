@@ -120,9 +120,13 @@ class CartActivity : AppCompatActivity() {
                 val responseType = object : TypeToken<Response>() {}.type
                 val responseObj = gson.fromJson<Response>(responseBodyString, responseType)
                 runOnUiThread {
-                    // Yanıtı işleme, örneğin ürünlerin sepete eklenmesi gibi
-                    Toast.makeText(this@CartActivity, "Cart submitted successfully", Toast.LENGTH_SHORT).show()
 
+                    if (responseObj.result == "success") {
+                        Toast.makeText(this@CartActivity, "Cart submitted successfully", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        Toast.makeText(this@CartActivity, "Failed to submit cart", Toast.LENGTH_SHORT).show()
+                    }
                     // Satılan ürünlerin durumunu güncelleme
                     updateSoldProducts(selectedProductList)
                 }
