@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Card Limit"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/editTextCardLimit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"/>
+
+    <Button
+        android:id="@+id/buttonLoadProducts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Products"
+        android:layout_marginTop="16dp"/>
+
+    <ListView
+        android:id="@+id/listViewCartProducts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/buttonSubmitCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Cart"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
