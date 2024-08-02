@@ -1,3 +1,5 @@
+package com.meliskaradag.shoppingcartclientside
+
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +23,7 @@ data class Product(
 }
 
 data class RequestData(val cardLimit: Double, val selectedProductList: List<Product>)
-data class Response(val result: String) // Yanıt verinizi temsil eden sınıf
+data class Response(val result: String)
 
 class CartActivity : AppCompatActivity() {
 
@@ -99,10 +101,10 @@ class CartActivity : AppCompatActivity() {
         val jsonRequest = gson.toJson(requestData)
 
         val client = OkHttpClient()
-        val mediaType = "application/json".toMediaType() // Güncellenmiş kullanım
+        val mediaType = "application/json".toMediaType()
         val body = jsonRequest.toRequestBody(mediaType)
         val request = okhttp3.Request.Builder()
-            .url("http://your_server_ip:port")  // Sunucu adresinizi ve portunuzu buraya ekleyin
+            .url("http://your_server_ip:port")  // Sunucu adresini ve portunu ekleme
             .post(body)
             .build()
 
